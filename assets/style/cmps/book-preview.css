@@ -4,6 +4,7 @@
    display: flex;
    flex-direction: column;
    align-items: center;
+   position: relative;
 }
 
 .book-preview h4 {
@@ -12,5 +13,23 @@
 }
 
 .book-preview img {
-   max-width: 100px;
+   max-width: 50px;
+}
+.book-preview .on-sale {
+   position: absolute;
+   top: 0;
+   right: 0;
+   max-width: 35px;
+}
+
+.book-preview .expensive {
+   color: red;
+}
+
+.book-preview .cheap {
+   color: green;
+}
+
+.book-preview li {
+   font-size: medium;
 }

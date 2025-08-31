@@ -5,13 +5,18 @@ import { storageService } from './async-storage.service.js';
 {
     "id": "OXeMG8wNskc",
     "title": "metus hendrerit",
+    "subtitle": "mi est eros dapibus himenaeos",
+    "authors": [ "Barbara Cartland" ],
+    "publishedDate": 1999,
     "description": "placerat nisi sodales suscipit tellus",
+    "pageCount": 713,
+    "categories": [ "Computers", "Hack" ],
     "thumbnail": "http://ca.org/books-photos/20.jpg",
+    "language": "en",
     "listPrice": { 
-       "amount": 109,
-       "currencyCode": "EUR",
-       "isOnSale": false
-    }
+      "amount": 109,
+      "currencyCode": "EUR",
+      "isOnSale": false
   }
   */
 

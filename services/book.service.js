@@ -46,7 +46,7 @@ async function query(filterBy = {}) {
 }
 
 async function get(bookId) {
-   return await storageService.get(BOOK_KEY, bookId);
+   return storageService.get(BOOK_KEY, bookId).then(_setNextPrevBookId);
 }
 
 async function remove(bookId) {
@@ -60,6 +60,16 @@ async function save(book) {
 
 function getDefaultFilter(filterBy = { txt: '' }) {
    return { txt: filterBy.txt, maxPrice: filterBy.maxPrice };
+}
+
+async function _setNextPrevBookId(book) {
+   const books = await storageService.query(BOOK_KEY);
+   const index = books.findIndex(({ id }) => book.id === id);
+   book.totalBooks = books.length;
+   book.index = index;
+   book.nextBookId = books[index + 1] ? books[index + 1].id : books[0].id;
+   book.prevBookId = books[index - 1] ? books[index - 1].id : books[books.length - 1].id;
+   return book;
 }
 
 function _createBooks() {

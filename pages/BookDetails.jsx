@@ -30,6 +30,7 @@ export function BookDetails() {
    }
 
    console.log('Render');
+
    return (
       <section className="book-details">
          <h1>Book Name: {book.title}</h1>
@@ -45,6 +46,7 @@ export function BookDetails() {
             <button>
                <Link to={`/book/${book.nextBookId}`}>Next</Link>
             </button>
+            <span>{`${book.index}/${book.totalBooks}`}</span>
          </section>
       </section>
    );

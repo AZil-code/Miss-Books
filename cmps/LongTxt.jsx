@@ -17,11 +17,6 @@ export function LongTxt({ txt, length = 100 }) {
                {buttonLabel}
             </a>
          </p>
-         {txt.length > length && (
-            <button className="expand-button" onClick={onClick}>
-               {buttonLabel}
-            </button>
-         )}
       </section>
    );
 }

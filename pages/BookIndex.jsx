@@ -1,6 +1,6 @@
 import { bookService } from '../services/book.service.js';
-import { BookFilter } from './BookFilter.jsx';
-import { BookList } from './BookList.jsx';
+import { BookFilter } from '../cmps/BookFilter.jsx';
+import { BookList } from '../cmps/BookList.jsx';
 
 const { useEffect, useState } = React;
 

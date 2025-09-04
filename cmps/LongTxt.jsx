@@ -1,22 +1,22 @@
 const { useState } = React;
 
-export function LongTxt({ txt, length = 100 }) {
-   const [displayedText, setText] = useState(`${txt.slice(0, length - 1)}...`);
+export function LongTxt({ txt, length = 150 }) {
+   const [isExpanded, setIsExpanded] = useState(false);
 
    function onClick() {
-      setText((prevTxt) => (prevTxt.length > length + 3 ? `${txt.slice(0, length - 1)}...` : txt));
+      setIsExpanded((prev) => !prev);
    }
 
-   const buttonLabel = displayedText.length > length + 3 ? 'Read Less' : 'Read More';
+   const txtToDisplay = isExpanded || txt.length <= 100 ? txt : `${txt.slice(0, length - 1)}...`;
 
    return (
       <section className="long-txt">
-         <p>
-            {displayedText}{' '}
+         <p>{txtToDisplay} </p>
+         {txt.length > length && (
             <a className="expand-txt" onClick={onClick}>
-               {buttonLabel}
+               {isExpanded ? 'Read Less' : 'Read More'}
             </a>
-         </p>
+         )}
       </section>
    );
 }

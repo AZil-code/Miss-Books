@@ -1,13 +1,13 @@
 const { useState } = React;
 
-export function LongTxt({ txt, length = 150 }) {
+export function LongTxt({ txt, length = 100 }) {
    const [isExpanded, setIsExpanded] = useState(false);
 
    function onClick() {
       setIsExpanded((prev) => !prev);
    }
 
-   const txtToDisplay = isExpanded || txt.length <= 100 ? txt : `${txt.slice(0, length - 1)}...`;
+   const txtToDisplay = isExpanded || txt.length <= length ? txt : `${txt.slice(0, length - 1)}...`;
 
    return (
       <section className="long-txt">

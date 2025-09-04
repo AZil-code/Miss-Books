@@ -29,6 +29,7 @@ export const bookService = {
    remove,
    save,
    getDefaultFilter,
+   getEmptyBook,
 };
 
 async function query(filterBy = {}) {
@@ -60,6 +61,10 @@ async function save(book) {
 
 function getDefaultFilter(filterBy = { txt: '' }) {
    return { txt: filterBy.txt, maxPrice: filterBy.maxPrice };
+}
+
+function getEmptyBook(title = '', listPrice = {}) {
+   return { title, listPrice };
 }
 
 async function _setNextPrevBookId(book) {

@@ -29,14 +29,13 @@ export function BookDetails() {
       // navigate(-1)
    }
 
-   console.log('Render');
+   const price = book.listPrice ? book.listPrice.amount : 'Not determined';
 
    return (
       <section className="book-details">
          <h1>Book Name: {book.title}</h1>
-         <h1>Book Price: {book.listPrice.amount}</h1>
-         {/* <p>{book.description}</p> */}
-         <LongTxt txt={book.description} />
+         <h1>Book Price: {price}</h1>
+         {book.description && <LongTxt txt={book.description} />}
          <img src={`../assets/img/${book.vendor}.png`} alt="book-image" />
          <button onClick={onBack}>Back</button>
          <section>
@@ -46,7 +45,7 @@ export function BookDetails() {
             <button>
                <Link to={`/book/${book.nextBookId}`}>Next</Link>
             </button>
-            <span>{`${book.index}/${book.totalBooks}`}</span>
+            <span>{`${book.index + 1}/${book.totalBooks}`}</span>
          </section>
       </section>
    );

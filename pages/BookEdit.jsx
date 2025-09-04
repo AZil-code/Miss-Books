@@ -1,10 +1,12 @@
 import { bookService } from '../services/book.service.js';
+import { utilService } from '../services/util.service.js';
 
-const { useState, useEffect } = React;
+const { useState } = React;
 
 export function BookEdit({ book, onBack, onSave }) {
-   const isEdit = book ? true : false;
-   const newBook = book;
+   const isEdit = utilService.isObjEmpty(book);
+   const newBook = isEdit ? book : bookService.getEmptyBook();
+   const [isSaveLocked, setIsSaveLocked] = useState(newBook.title === '' ? true : false);
 
    function onChange(ev) {
       let fieldName = ev.target.name;
@@ -15,6 +17,8 @@ export function BookEdit({ book, onBack, onSave }) {
          fieldName = fieldName.slice(dotInd + 1);
       }
       obj[fieldName] = ev.target.value;
+      if (obj.title !== '') setIsSaveLocked(false);
+      else setIsSaveLocked(true);
    }
 
    return (
@@ -31,11 +35,12 @@ export function BookEdit({ book, onBack, onSave }) {
                   type="number"
                   name="listPrice.amount"
                   id="listPrice.amount"
-                  defaultValue={book.listPrice.amount}
+                  defaultValue={book.listPrice && book.listPrice.amount}
                   onChange={onChange}
                />
                <section className="btns flex">
                   <button
+                     disabled={isSaveLocked}
                      onClick={(ev) => {
                         ev.preventDefault();
                         onSave({ ...book, ...newBook });

@@ -36,9 +36,9 @@ export function BookEdit() {
    return (
       // <section onSubmit={onSaveBook} className="book-edit">
       <div className="modal-backdrop">
-         <section className="book-edit modal-content">
-            <h1>{isEdit ? 'Edit' : 'Add'} Book</h1>
-            <form>
+         <section className="book-edit">
+            <form className="modal-content">
+               <h1>{isEdit ? 'Edit' : 'Add'} Book</h1>
                <label htmlFor="title">Title</label>
                <input type="text" name="title" id="title" defaultValue={newBook.title} onChange={onChange} />
 

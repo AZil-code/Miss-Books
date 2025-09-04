@@ -2,11 +2,18 @@ import { bookService } from '../services/book.service.js';
 import { utilService } from '../services/util.service.js';
 
 const { useState } = React;
+const { useNavigate, useParams, useOutletContext } = ReactRouterDOM;
 
-export function BookEdit({ book, onBack, onSave }) {
-   const isEdit = utilService.isObjEmpty(book);
-   const newBook = isEdit ? book : bookService.getEmptyBook();
-   const [isSaveLocked, setIsSaveLocked] = useState(newBook.title === '' ? true : false);
+export function BookEdit() {
+   const params = useParams(); // {bookId: ...}
+   const navigate = useNavigate();
+   const { onSave, books } = useOutletContext();
+   const isEdit = utilService.isObjEmpty(params);
+   const [newBook, setNewBook] = useState(
+      isEdit ? books.find((book) => book.id === params.bookId) : bookService.getEmptyBook()
+   );
+
+   console.log(newBook);
 
    function onChange(ev) {
       let fieldName = ev.target.name;
@@ -17,9 +24,14 @@ export function BookEdit({ book, onBack, onSave }) {
          fieldName = fieldName.slice(dotInd + 1);
       }
       obj[fieldName] = ev.target.value;
-      if (obj.title !== '') setIsSaveLocked(false);
-      else setIsSaveLocked(true);
+      setNewBook((prevBook) => ({ ...prevBook, ...obj }));
    }
+
+   function onBack() {
+      navigate('/book');
+   }
+
+   const isSaveLocked = newBook.title === '' ? true : false;
 
    return (
       // <section onSubmit={onSaveBook} className="book-edit">
@@ -28,22 +40,32 @@ export function BookEdit({ book, onBack, onSave }) {
             <h1>{isEdit ? 'Edit' : 'Add'} Book</h1>
             <form>
                <label htmlFor="title">Title</label>
-               <input type="text" name="title" id="title" defaultValue={book.title} onChange={onChange} />
+               <input type="text" name="title" id="title" defaultValue={newBook.title} onChange={onChange} />
 
                <label htmlFor="listPrice.amount">Amount</label>
                <input
                   type="number"
                   name="listPrice.amount"
                   id="listPrice.amount"
-                  defaultValue={book.listPrice && book.listPrice.amount}
+                  defaultValue={newBook.listPrice && newBook.listPrice.amount}
                   onChange={onChange}
                />
+
+               <label htmlFor="description">Description</label>
+               <textarea
+                  type="text"
+                  name="description"
+                  id="description"
+                  defaultValue={newBook.description}
+                  onChange={onChange}
+               />
+
                <section className="btns flex">
                   <button
                      disabled={isSaveLocked}
                      onClick={(ev) => {
                         ev.preventDefault();
-                        onSave({ ...book, ...newBook });
+                        onSave({ ...newBook });
                      }}
                   >
                      Save

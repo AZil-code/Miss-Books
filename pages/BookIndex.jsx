@@ -1,23 +1,22 @@
 import { bookService } from '../services/book.service.js';
 import { BookFilter } from '../cmps/BookFilter.jsx';
 import { BookList } from '../cmps/BookList.jsx';
-import { BookEdit } from './BookEdit.jsx';
 
 const { useEffect, useState } = React;
 const { useSearchParams } = ReactRouterDOM;
+const { Link, Outlet, useNavigate } = ReactRouterDOM;
 
 export function BookIndex() {
+   const navigate = useNavigate();
    const [searchParams, setSearchParams] = useSearchParams();
-   const [books, setBooks] = useState([]);
+   const [books, setBooks] = useState(null);
    const [filterBy, setFilterBy] = useState(extractSearchParamFilter());
-   // const [isEditOpen, setIsEditOpen] = useState(false);
-   const [bookToEdit, setBookToEdit] = useState(null);
 
    useEffect(() => {
-      loadBooks();
+      _loadBooks();
    }, [filterBy]);
 
-   async function loadBooks() {
+   async function _loadBooks() {
       try {
          const books = await bookService.query(filterBy);
          setBooks(books);
@@ -40,16 +39,6 @@ export function BookIndex() {
       setFilterBy((prevFilter) => ({ ...prevFilter, ...filterBy }));
    }
 
-   function onEdit(book) {
-      // setIsEditOpen(true);
-      setBookToEdit(book);
-   }
-
-   function onBack() {
-      // setIsEditOpen(false);
-      setBookToEdit(null);
-   }
-
    async function onSave(newBook) {
       try {
          const isNew = newBook.id ? false : true;
@@ -64,8 +53,7 @@ export function BookIndex() {
                return prevBooks;
             }
          });
-         setBookToEdit(null);
-         // setIsEditOpen(false);
+         navigate(`/book/${updatedBook.id}`);
       } catch (error) {
          console.error('Failed saving book: ', error);
       }
@@ -90,9 +78,11 @@ export function BookIndex() {
    return (
       <section className="book-index">
          <BookFilter onSetFilterBy={onSetFilterBy} filterBy={filterBy} />
-         <button onClick={() => onEdit({})}>Add Book</button>
-         <BookList books={books} onRemoveBook={onRemoveBook} onEdit={onEdit} />
-         {bookToEdit && <BookEdit onBack={onBack} book={bookToEdit} onSave={onSave} />}
+         <button>
+            <Link to="/book/edit">Add Book</Link>
+         </button>
+         <BookList books={books} onRemoveBook={onRemoveBook} />
+         <Outlet context={{ onSave: onSave, books: books }} />
       </section>
    );
 }

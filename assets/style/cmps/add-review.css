@@ -1,0 +1,36 @@
+.add-review form {
+   display: grid;
+   grid-template-columns: 1fr 2fr;
+   gap: 1em 1em;
+   align-items: center;
+   width: 100%;
+   max-width: 400px;
+   margin: auto;
+}
+
+.add-review h3 {
+   grid-column: 1 / -1;
+}
+
+.add-review label {
+   font-weight: 500;
+   margin-bottom: 0.2em;
+   justify-self: end;
+}
+
+.add-review input,
+.add-review select {
+   width: 100%;
+   max-width: 220px;
+   padding: 0.5em;
+   border-radius: 4px;
+   border: 1px solid var(--gray2);
+   font-size: 1em;
+   margin-bottom: 0;
+   justify-self: start;
+}
+
+.add-review button[type='submit'] {
+   grid-column: 2 / 3;
+   justify-self: end;
+}

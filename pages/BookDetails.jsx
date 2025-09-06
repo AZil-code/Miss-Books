@@ -1,3 +1,4 @@
+import { AddReview } from '../cmps/AddReview.jsx';
 import { LongTxt } from '../cmps/LongTxt.jsx';
 import { bookService } from '../services/book.service.js';
 
@@ -47,6 +48,7 @@ export function BookDetails() {
             </button>
             <span>{`${book.index + 1}/${book.totalBooks}`}</span>
          </section>
+         <AddReview />
       </section>
    );
 }

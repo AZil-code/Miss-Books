@@ -13,8 +13,6 @@ export function BookEdit() {
       isEdit ? books.find((book) => book.id === params.bookId) : bookService.getEmptyBook()
    );
 
-   console.log(newBook);
-
    function onChange(ev) {
       let fieldName = ev.target.name;
       let obj = newBook;
@@ -27,22 +25,27 @@ export function BookEdit() {
       setNewBook((prevBook) => ({ ...prevBook, ...obj }));
    }
 
+   function onSaveBook(ev) {
+      ev.preventDefault();
+      onSave({ ...newBook });
+   }
+
    function onBack() {
       navigate('/book');
    }
 
    const isSaveLocked = newBook.title === '' ? true : false;
+   const saveButtonClass = isSaveLocked ? 'disabled' : '';
 
    return (
-      // <section onSubmit={onSaveBook} className="book-edit">
       <div className="modal-backdrop">
-         <section className="book-edit">
+         <section onSubmit={onSaveBook} className="book-edit">
             <form className="modal-content">
                <h1>{isEdit ? 'Edit' : 'Add'} Book</h1>
                <label htmlFor="title">Title</label>
                <input type="text" name="title" id="title" defaultValue={newBook.title} onChange={onChange} />
 
-               <label htmlFor="listPrice.amount">Amount</label>
+               <label htmlFor="listPrice.amount">Price</label>
                <input
                   type="number"
                   name="listPrice.amount"
@@ -61,13 +64,7 @@ export function BookEdit() {
                />
 
                <section className="btns flex">
-                  <button
-                     disabled={isSaveLocked}
-                     onClick={(ev) => {
-                        ev.preventDefault();
-                        onSave({ ...newBook });
-                     }}
-                  >
+                  <button className={saveButtonClass} type="submit" disabled={isSaveLocked}>
                      Save
                   </button>
                   <button type="button" className="back-btn" onClick={onBack}>

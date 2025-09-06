@@ -1,4 +1,5 @@
 import { bookService } from '../services/book.service.js';
+import { eventBusService } from '../services/event-bus.service.js';
 import { debounce } from '../services/util.service.js';
 
 const { useRef, useState } = React;
@@ -27,10 +28,20 @@ export function AddReview({ bookId, setBook }) {
          .addReview(bookId, review)
          .then((updatedBook) => {
             setBook((prev) => ({ ...prev, ...updatedBook }));
+            eventBusService.emit('show-user-msg', {
+               type: 'success',
+               txt: 'Review added successfully!',
+            });
             ev.target.reset();
             setReview({});
          })
-         .catch((err) => console.error(`Failed to add review: ${err}`));
+         .catch((err) => {
+            eventBusService.emit('show-user-msg', {
+               type: 'error',
+               txt: 'Error on review creation!',
+            });
+            console.error(`Failed to add review: ${err}`);
+         });
    }
 
    const isSaveLocked = review.rating ? false : true;

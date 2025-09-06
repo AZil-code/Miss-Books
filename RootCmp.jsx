@@ -6,6 +6,7 @@ import { BookEdit } from './pages/BookEdit.jsx';
 import { AboutUs } from './pages/AboutUs.jsx';
 import { Team } from './cmps/about/Team.jsx';
 import { Vision } from './cmps/about/Vision.jsx';
+import { UserMsg } from './cmps/shared/UserMsg.jsx';
 
 const Router = ReactRouterDOM.HashRouter;
 const { Routes, Route, Navigate } = ReactRouterDOM;
@@ -31,6 +32,7 @@ export function RootCmp() {
                   {/* <Route path="/book/edit" element={<BookEdit />} /> */}
                </Routes>
             </main>
+            <UserMsg />
          </section>
       </Router>
    );

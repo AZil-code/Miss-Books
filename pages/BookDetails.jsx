@@ -1,6 +1,7 @@
 import { AddReview } from '../cmps/AddReview.jsx';
-import { LongTxt } from '../cmps/LongTxt.jsx';
+import { LongTxt } from '../cmps/shared/LongTxt.jsx';
 import { bookService } from '../services/book.service.js';
+import { eventBusService } from '../services/event-bus.service.js';
 
 const { useState, useEffect } = React;
 const { useParams, useNavigate, Link } = ReactRouterDOM;
@@ -34,6 +35,10 @@ export function BookDetails() {
    function onReviewDelete(reviewId) {
       const upReviews = book.reviews.filter((review) => review.id !== reviewId);
       bookService.save({ ...book, reviews: upReviews }).then((updatedBook) => setBook(updatedBook));
+      eventBusService.emit('show-user-msg', {
+         type: 'success',
+         txt: 'Successfully removed review!',
+      });
    }
 
    const price = book.listPrice ? book.listPrice.amount : 'Not determined';

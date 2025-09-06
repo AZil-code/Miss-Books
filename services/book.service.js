@@ -17,7 +17,16 @@ import { storageService } from './async-storage.service.js';
       "amount": 109,
       "currencyCode": "EUR",
       "isOnSale": false
-  }
+   }, 
+   "reviews": [
+      {
+         "id": "",
+         "name": "",
+         "rating": ,
+         "readAt": ""
+      }
+   ]
+}
   */
 
 const BOOK_KEY = 'bookDB';
@@ -30,6 +39,7 @@ export const bookService = {
    save,
    getDefaultFilter,
    getEmptyBook,
+   addReview,
 };
 
 async function query(filterBy = {}) {
@@ -65,6 +75,14 @@ function getDefaultFilter(filterBy = { txt: '' }) {
 
 function getEmptyBook(title = '', listPrice = {}) {
    return { title, listPrice };
+}
+
+async function addReview(bookId, review) {
+   review.id = storageService.makeId(7);
+   const book = await get(bookId);
+   if (!book.reviews) book.reviews = [review];
+   else book.reviews.push(review);
+   return storageService.put(BOOK_KEY, book);
 }
 
 async function _setNextPrevBookId(book) {

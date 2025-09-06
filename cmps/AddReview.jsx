@@ -1,8 +1,10 @@
+import { bookService } from '../services/book.service.js';
 import { debounce } from '../services/util.service.js';
-const { useRef } = React;
 
-export function AddReview() {
-   const review = {};
+const { useRef, useState } = React;
+
+export function AddReview({ bookId, setBook }) {
+   const [review, setReview] = useState({});
    const handleChangeDebounce = useRef(debounce(handleChange, 500)).current;
 
    function handleChange({ target }) {
@@ -10,20 +12,29 @@ export function AddReview() {
       switch (target.type) {
          case 'range':
          case 'number':
-            value = +target.value;
+            value = +target.value || '';
             break;
          case 'checkbox':
             value = target.checked;
             break;
       }
-      review[field] = value;
+      setReview((prev) => ({ ...prev, [field]: value }));
    }
 
    function onSubmit(ev) {
-      //    Send request to db
       ev.preventDefault();
-      console.log(review);
+      bookService
+         .addReview(bookId, review)
+         .then((updatedBook) => {
+            setBook((prev) => ({ ...prev, ...updatedBook }));
+            ev.target.reset();
+            setReview({});
+         })
+         .catch((err) => console.error(`Failed to add review: ${err}`));
    }
+
+   const isSaveLocked = review.rating ? false : true;
+   const saveButtonClass = isSaveLocked ? 'disabled' : '';
 
    return (
       <section className="add-review" onSubmit={onSubmit}>
@@ -38,7 +49,8 @@ export function AddReview() {
             <label htmlFor="rating" id="rating">
                Rating
             </label>
-            <select name="rating" onChange={handleChange}>
+            <select name="rating" onChange={handleChange} value={review.rating}>
+               <option value="">Select Rating</option>
                <option value="5">5</option>
                <option value="4">4</option>
                <option value="3">3</option>
@@ -49,7 +61,9 @@ export function AddReview() {
             <label htmlFor="readAt">Read At</label>
             <input type="date" name="readAt" onChange={handleChangeDebounce} />
 
-            <button type="submit">Submit Review</button>
+            <button type="submit" disabled={isSaveLocked} className={saveButtonClass}>
+               Submit Review
+            </button>
          </form>
       </section>
    );

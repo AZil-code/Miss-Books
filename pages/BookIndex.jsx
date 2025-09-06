@@ -1,6 +1,7 @@
 import { bookService } from '../services/book.service.js';
 import { BookFilter } from '../cmps/BookFilter.jsx';
 import { BookList } from '../cmps/BookList.jsx';
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js';
 
 const { useEffect, useState } = React;
 const { useSearchParams } = ReactRouterDOM;
@@ -29,8 +30,10 @@ export function BookIndex() {
       try {
          await bookService.remove(bookId);
          setBooks((books) => books.filter((book) => book.id !== bookId));
+         showSuccessMsg('Successfully removed book!');
       } catch (error) {
          console.error('Failed removing book: ', error);
+         showErrorMsg('Book removal failed!');
       }
    }
 
@@ -53,9 +56,11 @@ export function BookIndex() {
                return prevBooks;
             }
          });
+         showSuccessMsg('Book created successfully!');
          navigate(`/book/${updatedBook.id}`);
       } catch (error) {
          console.error('Failed saving book: ', error);
+         showErrorMsg('Failed adding book!');
       }
    }
 

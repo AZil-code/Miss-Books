@@ -1,7 +1,7 @@
 import { bookService } from '../services/book.service.js';
-import { utilService } from '../services/util.service.js';
+import { utilService, debounce } from '../services/util.service.js';
 
-const { useState } = React;
+const { useState, useRef, useEffect } = React;
 const { useNavigate, useParams, useOutletContext } = ReactRouterDOM;
 
 export function BookEdit() {
@@ -12,6 +12,7 @@ export function BookEdit() {
    const [newBook, setNewBook] = useState(
       isEdit ? books.find((book) => book.id === params.bookId) : bookService.getEmptyBook()
    );
+   const onChangeDebounce = useRef(debounce(onChange, 400)).current;
 
    function onChange(ev) {
       let fieldName = ev.target.name;
@@ -43,7 +44,7 @@ export function BookEdit() {
             <form className="modal-content">
                <h1>{isEdit ? 'Edit' : 'Add'} Book</h1>
                <label htmlFor="title">Title</label>
-               <input type="text" name="title" id="title" defaultValue={newBook.title} onChange={onChange} />
+               <input type="text" name="title" id="title" defaultValue={newBook.title} onChange={onChangeDebounce} />
 
                <label htmlFor="listPrice.amount">Price</label>
                <input
@@ -51,7 +52,7 @@ export function BookEdit() {
                   name="listPrice.amount"
                   id="listPrice.amount"
                   defaultValue={newBook.listPrice && newBook.listPrice.amount}
-                  onChange={onChange}
+                  onChange={onChangeDebounce}
                />
 
                <label htmlFor="description">Description</label>
@@ -60,7 +61,7 @@ export function BookEdit() {
                   name="description"
                   id="description"
                   defaultValue={newBook.description}
-                  onChange={onChange}
+                  onChange={onChangeDebounce}
                />
 
                <section className="btns flex">

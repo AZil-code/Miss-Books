@@ -112,12 +112,16 @@ function animateCSS(el, animation = 'bounce') {
 
       el.addEventListener('animationend', handleAnimationEnd, { once: true });
    });
-
-   function isObjEmpty(obj) {
-      return Object.keys(obj).length ? false : true;
-   }
 }
 
 function isObjEmpty(obj) {
    return Object.keys(obj).length ? true : false;
+}
+
+export function debounce(func, time = 500) {
+   let timeoutId;
+   return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func(...args), time);
+   };
 }

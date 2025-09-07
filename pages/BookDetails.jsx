@@ -41,7 +41,7 @@ export function BookDetails() {
    const price = book.listPrice ? book.listPrice.amount : 'Not determined';
 
    return (
-      <section className="book-details">
+      <section className="book-details blurred-overlay">
          <h1>Book Name: {book.title}</h1>
          <h1>Book Price: {price}</h1>
          {book.description && <LongTxt txt={book.description} />}

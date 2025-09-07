@@ -7,13 +7,10 @@
 }
 
 .book-details h1 {
-   color: var(--clr1);
+   color: var(--clr1bg-light);
    font-size: 2em;
 }
 
-.book-details h5 {
-   color: var(--clr2);
-}
 .book-details img {
    width: 300px;
    height: 400px;

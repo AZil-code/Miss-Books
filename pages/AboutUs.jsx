@@ -3,7 +3,7 @@ const { Link, Outlet } = ReactRouterDOM;
 
 export function AboutUs() {
    return (
-      <section className="about">
+      <section className="about blurred-overlay">
          <h1>About Miss Books</h1>
          <p>{utilService.makeLorem()}</p>
          <nav>

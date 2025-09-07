@@ -1,28 +1,38 @@
 .main-layout {
-    display: grid;
-    grid-template-columns: 1.6rem 1fr 1.6rem;
+   display: grid;
+   grid-template-columns: 1.6rem 1fr 1.6rem;
 }
 
-.main-layout>* {
-    grid-column: 2;
+.main-layout > * {
+   grid-column: 2;
 }
 
 .app {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
 }
 
 main.main-layout {
-    flex-grow: 1;
+   flex-grow: 1;
 }
 
 .main-layout .full {
-    grid-column: 1/-1;
+   grid-column: 1/-1;
 }
 
 .container {
-    max-width: 800px;
-    padding: 1em;
-    margin: auto;
+   max-width: 800px;
+   padding: 1em;
+   margin: auto;
+}
+
+.blurred-overlay {
+   /* Apply a semi-transparent background to allow the blur to be visible */
+   background-color: rgba(255, 255, 255, 0.3); /* White with 30% opacity */
+   padding: 20px;
+   border-radius: 10px;
+   /* Apply the backdrop-filter for blurring */
+   -webkit-backdrop-filter: blur(10px); /* For WebKit browsers */
+   backdrop-filter: blur(10px);
 }

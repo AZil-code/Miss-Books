@@ -27,8 +27,8 @@ export function BookAdd() {
    }
 
    return (
-      <section className="book-search-cotainer">
-         <input name="search-string" onChange={searchStrDebounce}></input>
+      <section className="book-search-container blurred-overlay">
+         <input name="search-string" placeholder="Search Book Here..." onChange={searchStrDebounce}></input>
          <ul>
             {books &&
                books.map((book) => (

@@ -19,6 +19,7 @@ export function BookPreview({ book }) {
       <article className="book-preview">
          {isOnSale && <img className="on-sale" src="/assets/img/on-sale.jpg" />}
          <h2>{book.title}</h2>
+         <img src={book.thumbnail} alt="book-image" />
          <h4>
             bookPrice: <span className={priceClass}> {bookPrice} </span>
          </h4>

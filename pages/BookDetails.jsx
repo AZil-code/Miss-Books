@@ -45,7 +45,7 @@ export function BookDetails() {
          <h1>Book Name: {book.title}</h1>
          <h1>Book Price: {price}</h1>
          {book.description && <LongTxt txt={book.description} />}
-         <img src={`../assets/img/${book.vendor}.png`} alt="book-image" />
+         <img src={book.thumbnail} alt="book-image" />
          <button onClick={onBack}>Back</button>
          <section>
             <button>

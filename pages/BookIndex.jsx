@@ -56,7 +56,7 @@ export function BookIndex() {
                return prevBooks;
             }
          });
-         showSuccessMsg('Book created successfully!');
+         showSuccessMsg(`Book ${isNew ? 'created' : 'edited'} successfully!`);
          navigate(`/book/${updatedBook.id}`);
       } catch (error) {
          console.error('Failed saving book: ', error);

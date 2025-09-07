@@ -15,7 +15,8 @@
    color: var(--clr2);
 }
 .book-details img {
-   max-width: 200px;
+   width: 300px;
+   height: 400px;
    display: block;
    margin: auto;
 }

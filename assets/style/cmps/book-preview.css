@@ -12,9 +12,6 @@
    color: black;
 }
 
-.book-preview img {
-   max-width: 50px;
-}
 .book-preview .on-sale {
    position: absolute;
    top: 0;

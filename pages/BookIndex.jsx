@@ -11,11 +11,15 @@ export function BookIndex() {
    const navigate = useNavigate();
    const [searchParams, setSearchParams] = useSearchParams();
    const [books, setBooks] = useState(null);
-   const [filterBy, setFilterBy] = useState(extractSearchParamFilter());
+   const [filterBy, setFilterBy] = useState(_extractSearchParamFilter());
 
    useEffect(() => {
       _loadBooks();
    }, [filterBy]);
+
+   useEffect(() => {
+      setFilterBy((prev) => ({ ...prev, ..._extractSearchParamFilter() }));
+   }, [searchParams]);
 
    async function _loadBooks() {
       try {
@@ -37,9 +41,9 @@ export function BookIndex() {
       }
    }
 
-   function onSetFilterBy(filterBy) {
-      updateSearchParams(filterBy);
-      setFilterBy((prevFilter) => ({ ...prevFilter, ...filterBy }));
+   function onSetFilterBy(newFilterBy) {
+      _updateSearchParams({ ...filterBy, ...newFilterBy });
+      setFilterBy((prevFilter) => ({ ...prevFilter, ...newFilterBy }));
    }
 
    async function onSave(newBook) {
@@ -64,14 +68,14 @@ export function BookIndex() {
       }
    }
 
-   function extractSearchParamFilter() {
+   function _extractSearchParamFilter() {
       return {
          txt: searchParams.get('txt'),
          maxPrice: searchParams.get('maxPrice'),
       };
    }
 
-   function updateSearchParams(filterBy) {
+   function _updateSearchParams(filterBy) {
       const newParams = {};
       if (filterBy.txt) newParams.txt = filterBy.txt;
       if (filterBy.maxPrice) newParams.maxPrice = filterBy.maxPrice;

@@ -53,7 +53,7 @@ async function query(filterBy = {}) {
       books = books.filter((book) => regExp.test(book.title) || regExp.test(book.description));
    }
    if (filterBy.maxPrice) {
-      books = books.filter((book) => book.listPrice.amount <= filterBy.maxPrice);
+      books = books.filter((book) => book.listPrice && book.listPrice.amount <= filterBy.maxPrice);
    }
 
    return books;

@@ -1,9 +1,11 @@
 import { utilService } from './util.service.js';
 import { storageService } from './async-storage.service.js';
+import { googleBookService } from './googleBooks.service.js';
 
 /*
 {
     "id": "OXeMG8wNskc",
+    "extId": "", // For books that come from external sources
     "title": "metus hendrerit",
     "subtitle": "mi est eros dapibus himenaeos",
     "authors": [ "Barbara Cartland" ],
@@ -40,6 +42,7 @@ export const bookService = {
    getDefaultFilter,
    getEmptyBook,
    addReview,
+   addGoogleBook,
 };
 
 async function query(filterBy = {}) {
@@ -83,6 +86,21 @@ async function addReview(bookId, review) {
    if (!book.reviews) book.reviews = [review];
    else book.reviews.push(review);
    return storageService.put(BOOK_KEY, book);
+}
+
+async function addGoogleBook(googleBook) {
+   const existBook = await storageService.get(BOOK_KEY, googleBook.id, 'extId');
+   if (existBook) {
+      const errMsg = `Requested book was already found with the ID of: ${existBook.id}`;
+      console.error(errMsg);
+      throw new Error(errMsg);
+   }
+   try {
+      const book = googleBookService.formatGoogleBook(googleBook);
+      return save(book);
+   } catch (error) {
+      console.error('Failed adding book! ', error);
+   }
 }
 
 async function _setNextPrevBookId(book) {

@@ -12,10 +12,10 @@ function query(entityType, delay = 200) {
    return new Promise((resolve) => setTimeout(() => resolve(entities), delay));
 }
 
-function get(entityType, entityId) {
+function get(entityType, entityId, idField = 'id') {
    return query(entityType).then((entities) => {
-      const entity = entities.find((entity) => entity.id === entityId);
-      if (!entity) throw new Error(`Get failed, cannot find entity with id: ${entityId} in: ${entityType}`);
+      const entity = entities.find((entity) => entity[idField] === entityId);
+      if (!entity) console.error(`Get failed, cannot find entity with id: ${entityId} in: ${entityType}`);
       return entity;
    });
 }
